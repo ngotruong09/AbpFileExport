@@ -5,13 +5,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Csv.Builders
 {
-    [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(ICsvBuilder))]
-    public class CsvHelperVendor : ICsvBuilder, ITransientDependency
+    public class CsvHelperVendor : ICsvBuilder
     {
         protected List<IDictionary<string, object>> _datas;
         protected string _pathFolder;

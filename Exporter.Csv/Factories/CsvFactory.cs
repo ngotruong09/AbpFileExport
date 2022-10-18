@@ -4,12 +4,11 @@ using Exporter.Abstract.Factories;
 using Exporter.Csv.Builders;
 using Exporter.Csv.Exporters;
 using System;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Factories
 {
     [ExporterName(nameof(ExportCsvType.CSV))]
-    public class CsvFactory : IExportFactory, ISingletonDependency
+    public class CsvFactory : IExportFactory
     {
         private readonly IServiceProvider _serviceProvider;
         public CsvFactory(IServiceProvider serviceProvider)

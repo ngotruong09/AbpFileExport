@@ -3,11 +3,10 @@ using Exporter.Abstract.Exporters;
 using Exporter.Excel.Builders;
 using System;
 using System.Collections.Generic;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Excel.Exporters
 {
-    public class ExcelExporter: IExporter, ITransientDependency
+    public class ExcelExporter: IExporter
     {
         public IExcelBuilder Builder { get; protected set; }
         private bool _disposedValue;

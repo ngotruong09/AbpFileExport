@@ -3,11 +3,10 @@ using Exporter.Abstract.Exporters;
 using Exporter.Csv.Builders;
 using System;
 using System.Collections.Generic;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Csv.Exporters
 {
-    public class CsvExporter : IExporter, ITransientDependency
+    public class CsvExporter : IExporter
     {
         public ICsvBuilder Builder { get; protected set; }
         private bool _disposedValue;

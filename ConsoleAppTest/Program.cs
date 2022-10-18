@@ -2,33 +2,26 @@
 using Exporter.Abstract.Managers;
 using Exporter.Csv.Exporters;
 using Exporter.Excel.Exporters;
-using Microsoft.Extensions.Hosting;
-using System;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using Volo.Abp;
 
-namespace ApplyTest
+namespace ConsoleAppTest
 {
-    public class ExporterSampleHostedService : IHostedService
+    public class Program
     {
-        private readonly IAbpApplicationWithExternalServiceProvider _application;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IExporterManager _exporterManager;
-
-        public ExporterSampleHostedService(IAbpApplicationWithExternalServiceProvider application, 
-            IServiceProvider serviceProvider, IExporterManager exporterManager)
+        static async Task Main(string[] args)
         {
-            _application = application;
-            _serviceProvider = serviceProvider;
-            _exporterManager = exporterManager;
-        }
+            var collections = new ServiceCollection();
+            collections.AddExporter(
+                options => options
+                .AddCsv()
+                .AddExcel());
 
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            _application.Initialize(_serviceProvider);
+            var serviceProvider = collections.BuildServiceProvider();
+
+            //========================================================================================
 
             List<IDictionary<string, object>> _datas = new List<IDictionary<string, object>>();
             _datas.Add(new Dictionary<string, object>() { { "Name", "A" }, { "Age", "22" } });
@@ -37,7 +30,10 @@ namespace ApplyTest
             _datas.Add(new Dictionary<string, object>() { { "Name", "D" }, { "Age", "25" } });
 
             // Save csv
-            using (var stream = 
+
+            var _exporterManager = serviceProvider.GetService<IExporterManager>();
+
+            using (var stream =
                 await _exporterManager.GetStreamDocument(
                     ExportCsvType.GetExportType(), _datas, new OptionCsv { TempFolderPath = @"d:\MyGit\save2\save" }))
             using (var fileStream = new FileStream(@"d:\MyGit\save2\test.csv", FileMode.Create, FileAccess.Write))
@@ -46,20 +42,14 @@ namespace ApplyTest
             }
 
             // Save excel
-            using (var stream = 
+            using (var stream =
                 await _exporterManager.GetStreamDocument(
                     ExportExcelType.GetExportType(), _datas, new OptionExcel { NumberRowPerSheet = 2 }))
             using (var fileStream = new FileStream(@"d:\MyGit\save2\test.xlsx", FileMode.Create, FileAccess.Write))
             {
                 stream.WriteTo(fileStream);
             }
-        }
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _application.Shutdown();
-
-            return Task.CompletedTask;
         }
     }
 }

@@ -6,13 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Abstract.Managers
 {
-    [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IExporterManager))]
-    public class ExporterManager: IExporterManager, ITransientDependency
+    public class ExporterManager: IExporterManager
     {
         protected ExportFactoryOptions ExportFactoryOptions { get; }
         protected IServiceProvider ServiceProvider { get; }

@@ -5,13 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Excel.Builders
 {
-    [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IExcelBuilder))]
-    public class EPPlusVendor : IExcelBuilder, ITransientDependency
+    public class EPPlusVendor : IExcelBuilder
     {
         protected List<IDictionary<string, object>> _datas;
         protected int _numRowPerSheet;

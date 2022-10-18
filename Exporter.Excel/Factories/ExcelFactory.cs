@@ -4,12 +4,11 @@ using Exporter.Abstract.Factories;
 using Exporter.Excel.Builders;
 using Exporter.Excel.Exporters;
 using System;
-using Volo.Abp.DependencyInjection;
 
 namespace Exporter.Excel.Factories
 {
     [ExporterName(nameof(ExportExcelType.EXCEL))]
-    public class ExcelFactory : IExportFactory, ISingletonDependency
+    public class ExcelFactory : IExportFactory
     {
         private readonly IServiceProvider _serviceProvider;
         public ExcelFactory(IServiceProvider serviceProvider)

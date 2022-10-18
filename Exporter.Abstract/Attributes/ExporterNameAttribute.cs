@@ -1,7 +1,6 @@
 ﻿using JetBrains.Annotations;
 using System;
 using System.Linq;
-using Volo.Abp;
 
 namespace Exporter.Abstract.Attributes
 {
@@ -11,11 +10,10 @@ namespace Exporter.Abstract.Attributes
         public virtual string ExporterName { get; }
         public ExporterNameAttribute([NotNull] string exporterName = null)
         {
-            ExporterName = Check.NotNullOrWhiteSpace(exporterName, nameof(exporterName));
+            ExporterName = exporterName;
         }
         public static string GetExporterNameOrDefault([NotNull] Type type)
         {
-            Check.NotNull(type, nameof(type));
             return type.GetCustomAttributes(true).OfType<IExporterNameProvider>()
                 .FirstOrDefault()?.GetExporterName(type) ?? "EXCEL";
         }
